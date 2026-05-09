@@ -1,0 +1,138 @@
+/* ── Design Tokens ─────────────────────────────────────────── */
+:root {
+  --bg-primary:   #050D1A;
+  --bg-secondary: #0A1E38;
+  --bg-card:      rgba(10, 30, 56, 0.75);
+  --gold:         #C9A027;
+  --gold-light:   #E8C547;
+  --blue:         #00B4D8;
+  --blue-mid:     #0077B6;
+  --white:        #FFFFFF;
+  --text-primary: #E8F4FF;
+  --text-muted:   #7AAFC4;
+  --border-gold:  rgba(201,160,39,0.25);
+  --border-blue:  rgba(0,180,216,0.2);
+  --font-serif:   'Cormorant Garamond', serif;
+  --font-sans:    'Inter', sans-serif;
+  --radius:       12px;
+  --transition:   0.4s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── Reset ─────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+img { max-width: 100%; display: block; }
+a  { color: inherit; text-decoration: none; }
+button { cursor: pointer; border: none; background: none; font-family: inherit; }
+
+/* ── Typography ────────────────────────────────────────────── */
+h1,h2,h3,h4 { font-family: var(--font-serif); line-height: 1.15; font-weight: 400; }
+h1 { font-size: clamp(3rem,  7vw, 6.5rem); }
+h2 { font-size: clamp(2rem,  4vw, 3.2rem); }
+h3 { font-size: clamp(1.4rem,2.5vw,2rem); }
+h4 { font-size: 1.2rem; }
+p  { font-size: 1rem; color: var(--text-muted); line-height: 1.75; }
+
+.serif { font-family: var(--font-serif); }
+.gold  { color: var(--gold); }
+.blue  { color: var(--blue); }
+
+/* ── Layout Helpers ────────────────────────────────────────── */
+.container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+.section   { padding: 7rem 0; }
+.section-header { text-align: center; margin-bottom: 4rem; }
+.section-header p { max-width: 560px; margin: 1rem auto 0; }
+.divider { width: 60px; height: 2px; background: var(--gold); margin: 1.2rem auto; }
+.divider.left { margin: 1.2rem 0; }
+
+/* ── Buttons ───────────────────────────────────────────────── */
+.btn {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  padding: 0.85rem 2.2rem;
+  font-family: var(--font-sans); font-size: 0.85rem; font-weight: 500;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  border-radius: 50px; transition: var(--transition);
+}
+.btn-gold {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--bg-primary);
+}
+.btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,160,39,0.45); }
+.btn-outline {
+  border: 1px solid var(--border-gold);
+  color: var(--gold);
+  backdrop-filter: blur(8px);
+}
+.btn-outline:hover {
+  background: rgba(201,160,39,0.1);
+  transform: translateY(-2px);
+}
+.btn-whatsapp {
+  background: #25D366;
+  color: #fff;
+}
+.btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(37,211,102,0.4); }
+
+/* ── Cards ─────────────────────────────────────────────────── */
+.glass-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: var(--radius);
+  backdrop-filter: blur(16px);
+  padding: 2rem;
+}
+
+/* ── Page Hero Banner (for inner pages) ────────────────────── */
+.page-hero {
+  min-height: 40vh;
+  display: flex; align-items: flex-end;
+  background: linear-gradient(to bottom, var(--bg-primary), var(--bg-secondary));
+  padding: 4rem 0 3rem;
+  border-bottom: 1px solid var(--border-gold);
+}
+.page-hero-label {
+  font-size: 0.75rem; letter-spacing: 0.25em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 0.75rem;
+}
+
+/* ── Scrollbar ─────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-primary); }
+::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+
+/* ── Animations ────────────────────────────────────────────── */
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50%      { transform: translateY(-12px); }
+}
+@keyframes shimmer {
+  0%   { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+@keyframes ripple {
+  0%   { transform: scale(0); opacity: 0.6; }
+  100% { transform: scale(3); opacity: 0; }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.animate-float { animation: float 4s ease-in-out infinite; }
+.animate-fadeUp { animation: fadeUp 0.8s ease forwards; }
+
+/* ── Responsive ────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .section { padding: 5rem 0; }
+  .container { padding: 0 1.25rem; }
+}
