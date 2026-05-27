@@ -5,6 +5,8 @@ import { DropIcon, PHIcon, LayersIcon, ShieldIcon, AwardIcon, ZapIcon, CheckIcon
 
 const WA_NUMBER = '919109348483'
 
+const SIZES = ['200 ml', '500 ml', '750 ml', '1 L']
+
 /* ── WhatsApp message builders ─────────────────────────────── */
 function buildBulkMsg(f) {
   return [
@@ -62,7 +64,6 @@ function QuoteModal({ type, onClose }) {
     onClose()
   }
 
-  const SIZES = ['500 ml', '1 L', '5 L', '20 L']
   const BIZ_TYPES = ['Hotel', 'Restaurant', 'Corporate Office', 'Hospital', 'Event Organiser', 'Retail Store', 'Other']
 
   return (
@@ -135,11 +136,11 @@ function QuoteModal({ type, onClose }) {
 
 /* ── Scroll-highlight features ─────────────────────────────── */
 const SCROLL_FEATURES = [
-  { Icon: LayersIcon, title: '7-Layer Filtration Technology',  desc: 'Our state-of-the-art in-house purification plant employs a 7-stage process — from raw groundwater to crystal-clear drinking water with zero contaminants remaining.', color: 'var(--blue)' },
-  { Icon: PHIcon,     title: 'pH 8.5+ Alkaline Balance',       desc: 'Water\'s pH is calibrated to 8.5–9.0, supporting optimal cellular hydration and neutralising dietary acidity. Measured and verified in every batch.', color: 'var(--blue)' },
-  { Icon: DropIcon,   title: 'Mineral-Enhanced Formulation',   desc: 'Post-RO, essential minerals — calcium and magnesium — are precisely re-added at health-optimal concentrations, restoring natural taste and nutritional value.', color: 'var(--gold)' },
-  { Icon: ShieldIcon, title: 'BPA Free · Food-Grade Packaging', desc: 'Every bottle is manufactured from certified food-grade PET plastic. Zero bisphenol A, zero heavy metals, zero compromise on what touches your water.', color: 'var(--gold)' },
-  { Icon: AwardIcon,  title: 'FSSAI Licensed & Tested',         desc: 'Government-licensed facility, NABL-accredited lab testing across 50+ parameters. Our credentials are public, verifiable, and renewed annually.', color: 'var(--blue)' },
+  { Icon: LayersIcon, title: '7-Layer Filtration Technology',  desc: 'In-house 7-stage purification — from raw groundwater to crystal-clear alkaline water with zero contaminants.', color: 'var(--blue)' },
+  { Icon: PHIcon,     title: 'pH 8.5+ Alkaline Balance',       desc: 'Calibrated to 8.5–9.0, supporting optimal cellular hydration and neutralising dietary acidity.', color: 'var(--blue)' },
+  { Icon: DropIcon,   title: 'Mineral-Enhanced Formulation',   desc: 'Calcium and magnesium re-added post-RO at health-optimal concentrations — natural taste, real nutrition.', color: 'var(--gold)' },
+  { Icon: ShieldIcon, title: 'BPA Free · Food-Grade Packaging', desc: 'Certified food-grade PET plastic. Zero bisphenol A, zero heavy metals, zero compromise.', color: 'var(--gold)' },
+  { Icon: AwardIcon,  title: 'FSSAI Licensed & Tested',         desc: 'Government-licensed facility, independently tested across 50+ parameters. Credentials public and verifiable.', color: 'var(--blue)' },
 ]
 
 function ScrollFeatures() {
@@ -165,19 +166,19 @@ function ScrollFeatures() {
       {SCROLL_FEATURES.map((f, i) => (
         <div key={f.title} ref={el => itemRefs.current[i] = el} data-idx={i}
           style={{
-            padding: '3.5rem 0 3.5rem 2.5rem',
+            padding: '2rem 0 2rem 2rem',
             borderLeft: `3px solid ${active === i ? f.color : 'rgba(255,255,255,0.07)'}`,
             opacity: active === i ? 1 : 0.28,
             transition: 'opacity 0.5s ease, border-color 0.5s ease',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '0.8rem' }}>
-            <f.Icon size={26} color={active === i ? f.color : 'var(--text-muted)'} strokeWidth={1.4} />
-            <h3 style={{ fontFamily: 'var(--font-serif)', color: active === i ? 'var(--text-primary)' : 'var(--text-muted)', transition: 'color 0.5s', margin: 0 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', marginBottom: '0.5rem' }}>
+            <f.Icon size={22} color={active === i ? f.color : 'var(--text-muted)'} strokeWidth={1.4} />
+            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.1rem', color: active === i ? 'var(--text-primary)' : 'var(--text-muted)', transition: 'color 0.5s', margin: 0 }}>
               {f.title}
             </h3>
           </div>
-          <p style={{ maxWidth: '520px', lineHeight: 1.8, margin: 0, fontSize: '0.95rem' }}>{f.desc}</p>
+          <p style={{ maxWidth: '500px', lineHeight: 1.7, margin: 0, fontSize: '0.82rem' }}>{f.desc}</p>
         </div>
       ))}
     </div>
@@ -186,26 +187,16 @@ function ScrollFeatures() {
 
 /* ── Alkaline benefits ─────────────────────────────────────── */
 const BENEFITS = [
-  { icon: <ZapIcon size={18} color="var(--gold)" />, text: 'Superior hydration and faster absorption' },
-  { icon: <PHIcon  size={18} color="var(--gold)" />, text: 'Supports optimal body pH balance' },
-  { icon: <DropIcon size={18} color="var(--gold)" />, text: 'Antioxidant-rich, low ORP water' },
-  { icon: <ShieldIcon size={18} color="var(--gold)" />, text: 'Gentler on digestive system' },
-  { icon: <ZapIcon size={18} color="var(--gold)" />, text: 'Enhanced electrolyte balance' },
-  { icon: <AwardIcon size={18} color="var(--gold)" />, text: 'Supports bone density and health' },
-]
-
-/* ── Specs ─────────────────────────────────────────────────── */
-const SPECS = [
-  { param: 'pH Level',           value: '8.5 – 9.0',     note: 'Alkaline' },
-  { param: 'TDS',                value: '150 – 250 mg/L', note: 'Optimal range' },
-  { param: 'Calcium (Ca²⁺)',     value: '30 – 50 mg/L',  note: 'Bone health' },
-  { param: 'Magnesium (Mg²⁺)',   value: '10 – 20 mg/L',  note: 'Muscle function' },
-  { param: 'Sodium (Na⁺)',       value: '< 20 mg/L',     note: 'Heart-friendly' },
-  { param: 'Hardness',           value: '75 – 150 mg/L', note: 'Soft-medium' },
+  { icon: <ZapIcon size={16} color="var(--gold)" />, text: 'Superior hydration and faster absorption' },
+  { icon: <PHIcon  size={16} color="var(--gold)" />, text: 'Supports optimal body pH balance' },
+  { icon: <DropIcon size={16} color="var(--gold)" />, text: 'Antioxidant-rich, low ORP water' },
+  { icon: <ShieldIcon size={16} color="var(--gold)" />, text: 'Gentler on digestive system' },
+  { icon: <ZapIcon size={16} color="var(--gold)" />, text: 'Enhanced electrolyte balance' },
+  { icon: <AwardIcon size={16} color="var(--gold)" />, text: 'Supports bone density and health' },
 ]
 
 export default function Products() {
-  const [modal, setModal] = useState(null) // null | 'bulk' | 'custom'
+  const [modal, setModal] = useState(null)
 
   return (
     <>
@@ -218,83 +209,119 @@ export default function Products() {
         background: 'radial-gradient(ellipse 120% 70% at 50% 100%, rgba(0,180,216,0.09), transparent 60%), linear-gradient(155deg, #020810, #050D1A 40%, #0A1E38)',
       }}>
         <WaveCanvas intensity={1.4} />
-        <div style={{ position: 'absolute', right: '8%', top: '50%', transform: 'translateY(-50%)', zIndex: 1 }}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '380px', height: '380px', background: 'radial-gradient(circle, rgba(0,180,216,0.16), transparent 70%)', borderRadius: '50%', filter: 'blur(28px)', pointerEvents: 'none' }} />
+
+        {/* Bottle — right */}
+        <div style={{ position: 'absolute', right: '6%', top: '50%', transform: 'translateY(-50%)', zIndex: 1 }}>
+          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '380px', height: '380px', background: 'radial-gradient(circle, rgba(0,180,216,0.18), transparent 70%)', borderRadius: '50%', filter: 'blur(32px)', pointerEvents: 'none' }} />
           <motion.img
             src="/assets/bottle-hero.jpg"
             alt="Healtho Premium"
             initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: [0.4,0,0.2,1] }}
-            style={{ height: '80vh', maxHeight: '660px', objectFit: 'contain', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 30px 70px rgba(0,0,0,0.6)) drop-shadow(0 0 1px rgba(255,255,255,0.12))' }}
+            style={{ height: '80vh', maxHeight: '660px', objectFit: 'contain', position: 'relative', zIndex: 1, mixBlendMode: 'multiply', filter: 'brightness(1.35) saturate(1.1) drop-shadow(0 30px 70px rgba(0,0,0,0.5))' }}
           />
         </div>
 
+        {/* Text — left */}
         <div className="container" style={{ position: 'relative', zIndex: 2 }}>
-          <div style={{ maxWidth: '560px' }}>
+          <div style={{ maxWidth: '540px' }}>
             <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:0.8 }}
               style={{ fontSize:'0.72rem', letterSpacing:'0.32em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.8rem' }}>
-              Healtho — Premium Alkaline Brand
+              Healtho — Premium Alkaline Water
             </motion.p>
             <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }} style={{ fontWeight:300, marginBottom:'0.5rem' }}>
               The Healtho
             </motion.h1>
-            <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.35 }} style={{ fontWeight:300, color:'var(--blue)', marginBottom:'1.8rem' }}>
+            <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.35 }} style={{ fontWeight:300, color:'var(--blue)', marginBottom:'1.6rem' }}>
               <em>Collection</em>
             </motion.h1>
             <motion.p initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.5 }}
-              style={{ fontSize:'1rem', lineHeight:1.85, color:'var(--text-muted)', marginBottom:'2rem' }}>
-              Every bottle is a product of India's most rigorous 7-layer purification technology. Alkaline. Mineral-enhanced. FSSAI certified.
+              style={{ fontSize:'0.96rem', lineHeight:1.85, color:'var(--text-muted)', marginBottom:'0.7rem' }}>
+              Packaged drinking water through 7-layer in-house filtration — alkaline, mineral-enhanced, FSSAI certified.
             </motion.p>
-            <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.7 }}
-              style={{ display:'flex', gap:'1rem', flexWrap:'wrap' }}>
-              <button onClick={() => setModal('bulk')} className="btn btn-gold">Get a Quote</button>
-              <button onClick={() => setModal('custom')} className="btn btn-outline">Custom Labels</button>
+            <motion.p initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.6 }}
+              style={{ fontSize:'0.9rem', lineHeight:1.75, color:'var(--text-muted)', marginBottom:'2rem' }}>
+              Available in four sizes for retail and bulk, or fully custom-labelled for your brand.
+            </motion.p>
+            <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.8, delay:0.72 }}
+              style={{ display:'flex', gap:'0.8rem', flexWrap:'wrap' }}>
+              <button onClick={() => setModal('bulk')} className="btn btn-gold">Packaged Water Quote</button>
+              <button onClick={() => setModal('custom')} className="btn btn-outline">Custom Labels Enquiry</button>
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          SCROLL FEATURES
+          TWO OFFERINGS — CLEAR OVERVIEW
       ══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '6rem 0', position: 'relative' }}>
+      <section style={{ padding: '4rem 0', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-gold)', borderBottom: '1px solid var(--border-gold)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '6rem', alignItems: 'start' }}>
-            <div>
-              <motion.div initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }} transition={{ duration:0.7 }}
-                style={{ marginBottom: '3rem' }}>
-                <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.7rem' }}>What's Inside Every Bottle</p>
-                <h2 style={{ fontWeight:300 }}>Five Reasons<br /><em>to Choose Healtho</em></h2>
-              </motion.div>
-              <ScrollFeatures />
-            </div>
+          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}
+            style={{ textAlign:'center', marginBottom:'2.2rem' }}>
+            <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.5rem' }}>Our Services</p>
+            <h2 style={{ fontWeight:300, fontSize:'1.8rem', margin:0 }}>Two Ways We <em>Serve You</em></h2>
+          </motion.div>
 
-            {/* Sticky visual */}
-            <div style={{ position: 'sticky', top: '120px', alignSelf: 'start' }}>
-              <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border-gold)', background: 'rgba(10,30,56,0.6)' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 30%, rgba(0,180,216,0.10), transparent 70%)', pointerEvents: 'none' }} />
-                <img src="/assets/bottle-hero.jpg" alt="Healtho" style={{ width: '100%', display: 'block', maxHeight: '480px', objectFit: 'contain', padding: '2rem' }} />
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'1.5rem', maxWidth:'840px', margin:'0 auto' }}>
+            {/* Service 1 */}
+            <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6 }}
+              className="glass-card" style={{ textAlign:'center', display:'flex', flexDirection:'column', alignItems:'center' }}>
+              <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:'rgba(0,180,216,0.08)', border:'1px solid rgba(0,180,216,0.2)', display:'grid', placeItems:'center', marginBottom:'1rem' }}>
+                <DropIcon size={26} color="var(--blue)" strokeWidth={1.4} />
               </div>
-            </div>
+              <h3 style={{ fontFamily:'var(--font-serif)', fontSize:'1.3rem', marginBottom:'0.75rem' }}>Packaged Drinking Water</h3>
+              <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap', justifyContent:'center', marginBottom:'0.9rem' }}>
+                {SIZES.map(s => (
+                  <span key={s} style={{ fontSize:'0.76rem', padding:'0.2rem 0.65rem', border:'1px solid rgba(0,180,216,0.25)', borderRadius:'50px', color:'var(--blue)' }}>{s}</span>
+                ))}
+              </div>
+              <p style={{ fontSize:'0.84rem', lineHeight:1.65, marginBottom:'1.4rem', color:'var(--text-muted)' }}>
+                Premium alkaline water in four sizes. Bulk orders, recurring supply, and event catering — same purity, every bottle.
+              </p>
+              <button onClick={() => setModal('bulk')} className="btn btn-gold" style={{ width:'100%', justifyContent:'center' }}>
+                Get a Quote <ArrowRight size={15} color="currentColor" />
+              </button>
+            </motion.div>
+
+            {/* Service 2 */}
+            <motion.div initial={{ opacity:0, y:24 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6, delay:0.12 }}
+              className="glass-card" style={{ textAlign:'center', display:'flex', flexDirection:'column', alignItems:'center', borderColor:'var(--border-gold)' }}>
+              <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:'rgba(201,160,39,0.08)', border:'1px solid var(--border-gold)', display:'grid', placeItems:'center', marginBottom:'1rem' }}>
+                <AwardIcon size={26} color="var(--gold)" strokeWidth={1.4} />
+              </div>
+              <h3 style={{ fontFamily:'var(--font-serif)', fontSize:'1.3rem', marginBottom:'0.75rem' }}>Custom Label Services</h3>
+              <div style={{ display:'flex', gap:'0.4rem', flexWrap:'wrap', justifyContent:'center', marginBottom:'0.9rem' }}>
+                {['Hotels','Restaurants','Corporate','Events'].map(t => (
+                  <span key={t} style={{ fontSize:'0.76rem', padding:'0.2rem 0.65rem', border:'1px solid var(--border-gold)', borderRadius:'50px', color:'var(--gold)' }}>{t}</span>
+                ))}
+              </div>
+              <p style={{ fontSize:'0.84rem', lineHeight:1.65, marginBottom:'1.4rem', color:'var(--text-muted)' }}>
+                Your brand. Our water. End-to-end white-label solutions — logo, label design, packaging, and delivery.
+              </p>
+              <button onClick={() => setModal('custom')} className="btn btn-outline" style={{ width:'100%', justifyContent:'center', borderColor:'var(--gold)', color:'var(--gold)' }}>
+                Enquire Now <ArrowRight size={15} color="currentColor" />
+              </button>
+            </motion.div>
           </div>
         </div>
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          ALKALINE BENEFITS
+          ALKALINE BENEFITS — compact
       ══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '5rem 0', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-gold)', borderBottom: '1px solid var(--border-gold)' }}>
+      <section style={{ padding: '3.5rem 0' }}>
         <div className="container">
-          <motion.div className="section-header" initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}>
-            <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)' }}>Why Alkaline?</p>
-            <h2 style={{ marginTop:'0.5rem', fontWeight:300 }}>The Benefits of<br /><em>Alkaline Water</em></h2>
-            <div className="divider" />
+          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}
+            style={{ marginBottom:'2rem' }}>
+            <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.4rem' }}>Why Alkaline?</p>
+            <h3 style={{ fontWeight:300, fontSize:'1.4rem', margin:0 }}>Benefits of <em>Alkaline Water</em></h3>
           </motion.div>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '0.8rem', maxWidth: '860px', margin: '0 auto' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))', gap: '0.65rem', maxWidth: '900px' }}>
             {BENEFITS.map(({ icon, text }, i) => (
-              <motion.div key={text} initial={{ opacity:0, x:-16 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ duration:0.5, delay:i*0.06 }}
-                style={{ display:'flex', alignItems:'center', gap:'0.9rem', padding:'0.9rem 1.2rem', background:'rgba(201,160,39,0.04)', borderRadius:'10px', border:'1px solid var(--border-gold)' }}>
+              <motion.div key={text} initial={{ opacity:0, x:-12 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ duration:0.4, delay:i*0.05 }}
+                style={{ display:'flex', alignItems:'center', gap:'0.75rem', padding:'0.75rem 1rem', background:'rgba(201,160,39,0.04)', borderRadius:'8px', border:'1px solid var(--border-gold)' }}>
                 {icon}
-                <span style={{ fontSize:'0.9rem', color:'var(--text-muted)' }}>{text}</span>
+                <span style={{ fontSize:'0.84rem', color:'var(--text-muted)' }}>{text}</span>
               </motion.div>
             ))}
           </div>
@@ -302,9 +329,9 @@ export default function Products() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          LET'S TALK BUSINESS
+          BUSINESS OFFERINGS — detailed cards
       ══════════════════════════════════════════════════════ */}
-      <section className="section">
+      <section className="section" style={{ background:'var(--bg-secondary)', borderTop:'1px solid var(--border-gold)', borderBottom:'1px solid var(--border-gold)' }}>
         <div className="container">
           <motion.div className="section-header" initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}>
             <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)' }}>Offerings</p>
@@ -313,7 +340,7 @@ export default function Products() {
           </motion.div>
 
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-            {/* Offering 1: Bottled Water */}
+            {/* Offering 1 */}
             <motion.div initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}
               style={{ background:'rgba(10,30,56,0.7)', border:'1px solid var(--border-gold)', borderRadius:'20px', padding:'2.5rem', display:'flex', flexDirection:'column' }}>
               <div style={{ marginBottom:'1.5rem' }}>
@@ -322,14 +349,13 @@ export default function Products() {
                 <p style={{ fontSize:'0.9rem', lineHeight:1.75 }}>Premium alkaline water in four standard sizes. Orders accepted in bulk — cases, pallets, and recurring supply contracts.</p>
               </div>
 
-              {/* 4 sizes grid */}
-              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.7rem', marginBottom:'1.5rem' }}>
-                {['500 ml','1 L','5 L','20 L'].map(sz => (
-                  <div key={sz} style={{ display:'flex', alignItems:'center', gap:'0.7rem', padding:'0.7rem 1rem', background:'rgba(0,180,216,0.04)', borderRadius:'10px', border:'1px solid rgba(0,180,216,0.15)' }}>
-                    <img src="/assets/bottle-hero.jpg" alt={sz} style={{ height:'48px', objectFit:'contain', opacity:0.8 }} />
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.6rem', marginBottom:'1.5rem' }}>
+                {SIZES.map(sz => (
+                  <div key={sz} style={{ display:'flex', alignItems:'center', gap:'0.6rem', padding:'0.6rem 0.9rem', background:'rgba(0,180,216,0.04)', borderRadius:'10px', border:'1px solid rgba(0,180,216,0.15)' }}>
+                    <img src="/assets/bottle-hero.jpg" alt={sz} style={{ height:'44px', objectFit:'contain', opacity:0.8, mixBlendMode:'multiply', filter:'brightness(1.3)' }} />
                     <div>
-                      <div style={{ fontFamily:'var(--font-serif)', fontSize:'1.1rem', color:'var(--text-primary)' }}>{sz}</div>
-                      <div style={{ fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.1em' }}>Alkaline</div>
+                      <div style={{ fontFamily:'var(--font-serif)', fontSize:'1rem', color:'var(--text-primary)' }}>{sz}</div>
+                      <div style={{ fontSize:'0.68rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.1em' }}>Alkaline</div>
                     </div>
                   </div>
                 ))}
@@ -337,22 +363,18 @@ export default function Products() {
 
               <div style={{ display:'flex', gap:'0.5rem', flexWrap:'wrap', marginBottom:'1.5rem' }}>
                 {['Bulk orders','Recurring supply','Event catering','Same-day dispatch'].map(t => (
-                  <span key={t} style={{ display:'flex', alignItems:'center', gap:'0.3rem', fontSize:'0.78rem', color:'var(--text-muted)', background:'rgba(255,255,255,0.04)', padding:'0.3rem 0.7rem', borderRadius:'50px', border:'1px solid rgba(255,255,255,0.08)' }}>
-                    <CheckIcon size={12} color="var(--blue)" strokeWidth={2.5} />{t}
+                  <span key={t} style={{ display:'flex', alignItems:'center', gap:'0.3rem', fontSize:'0.76rem', color:'var(--text-muted)', background:'rgba(255,255,255,0.04)', padding:'0.25rem 0.65rem', borderRadius:'50px', border:'1px solid rgba(255,255,255,0.08)' }}>
+                    <CheckIcon size={11} color="var(--blue)" strokeWidth={2.5} />{t}
                   </span>
                 ))}
               </div>
-
-              <p style={{ fontSize:'0.84rem', color:'var(--text-muted)', marginBottom:'1.5rem', lineHeight:1.7 }}>
-                Pricing, quantities, and delivery schedules are customised per order. Contact us on WhatsApp for an instant quote.
-              </p>
 
               <button onClick={() => setModal('bulk')} className="btn btn-gold" style={{ justifyContent:'center', marginTop:'auto' }}>
                 Get a Quote <ArrowRight size={16} color="currentColor" />
               </button>
             </motion.div>
 
-            {/* Offering 2: Custom Labels */}
+            {/* Offering 2 */}
             <motion.div initial={{ opacity:0, y:30 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7, delay:0.15 }}
               style={{ background:'rgba(201,160,39,0.04)', border:'1px solid var(--border-gold)', borderRadius:'20px', padding:'2.5rem', display:'flex', flexDirection:'column' }}>
               <div style={{ marginBottom:'1.5rem' }}>
@@ -361,18 +383,18 @@ export default function Products() {
                 <p style={{ fontSize:'0.9rem', lineHeight:1.75 }}>Your brand. Our water. End-to-end white-label solutions for hotels, restaurants, corporate events, and businesses.</p>
               </div>
 
-              <div style={{ display:'flex', flexDirection:'column', gap:'0.8rem', marginBottom:'1.5rem' }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:'0.7rem', marginBottom:'1.5rem' }}>
                 {[
                   ['Label & Bottle Design','Your brand identity — logo, colours, typography — printed on premium labels.'],
                   ['Purification & Filtration','The same 7-layer quality process. Your name on a glass of pure water.'],
                   ['Packaging & Branding','Custom packaging, branded cases, and event-ready presentation.'],
                   ['Delivery & Logistics','Reliable supply with flexible delivery schedules, directly to your venue.'],
                 ].map(([h, t]) => (
-                  <div key={h} style={{ display:'flex', gap:'0.9rem', alignItems:'flex-start', padding:'0.9rem', background:'rgba(10,30,56,0.5)', borderRadius:'10px', border:'1px solid rgba(201,160,39,0.1)' }}>
-                    <CheckIcon size={16} color="var(--gold)" strokeWidth={2.5} style={{ flexShrink:0, marginTop:'2px' }} />
+                  <div key={h} style={{ display:'flex', gap:'0.8rem', alignItems:'flex-start', padding:'0.8rem', background:'rgba(10,30,56,0.5)', borderRadius:'10px', border:'1px solid rgba(201,160,39,0.1)' }}>
+                    <CheckIcon size={15} color="var(--gold)" strokeWidth={2.5} style={{ flexShrink:0, marginTop:'2px' }} />
                     <div>
-                      <div style={{ fontSize:'0.88rem', color:'var(--text-primary)', fontWeight:500, marginBottom:'0.15rem' }}>{h}</div>
-                      <div style={{ fontSize:'0.8rem', color:'var(--text-muted)', lineHeight:1.55 }}>{t}</div>
+                      <div style={{ fontSize:'0.86rem', color:'var(--text-primary)', fontWeight:500, marginBottom:'0.12rem' }}>{h}</div>
+                      <div style={{ fontSize:'0.78rem', color:'var(--text-muted)', lineHeight:1.5 }}>{t}</div>
                     </div>
                   </div>
                 ))}
@@ -387,37 +409,28 @@ export default function Products() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          SPECS TABLE
+          5 REASONS TO CHOOSE HEALTHO — compact
       ══════════════════════════════════════════════════════ */}
-      <section style={{ padding:'5rem 0', background:'var(--bg-secondary)', borderTop:'1px solid var(--border-gold)' }}>
+      <section style={{ padding: '5rem 0', position: 'relative' }}>
         <div className="container">
-          <motion.div className="section-header" initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}>
-            <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)' }}>Transparency</p>
-            <h2 style={{ marginTop:'0.5rem', fontWeight:300 }}>Water Quality<br /><em>Specifications</em></h2>
-            <div className="divider" />
-            <p>Every parameter tested, certified, and shared — because you deserve to know what you drink.</p>
-          </motion.div>
-          <motion.div initial={{ opacity:0, y:20 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.7 }}
-            style={{ borderRadius:'16px', overflow:'hidden', border:'1px solid var(--border-gold)', maxWidth:'760px', margin:'0 auto' }}>
-            <table style={{ width:'100%', borderCollapse:'collapse' }}>
-              <thead>
-                <tr style={{ background:'rgba(201,160,39,0.08)', borderBottom:'1px solid var(--border-gold)' }}>
-                  {['Parameter','Value','Significance'].map(h => (
-                    <th key={h} style={{ padding:'1rem 1.5rem', textAlign:'left', fontSize:'0.72rem', letterSpacing:'0.17em', textTransform:'uppercase', color:'var(--gold)' }}>{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {SPECS.map(({ param, value, note }, i) => (
-                  <tr key={param} style={{ borderBottom:'1px solid rgba(255,255,255,0.04)', background: i%2===0 ? 'transparent' : 'rgba(255,255,255,0.015)' }}>
-                    <td style={{ padding:'0.85rem 1.5rem', fontSize:'0.9rem' }}>{param}</td>
-                    <td style={{ padding:'0.85rem 1.5rem', fontSize:'0.9rem', color:'var(--blue)', fontWeight:500 }}>{value}</td>
-                    <td style={{ padding:'0.85rem 1.5rem', fontSize:'0.85rem', color:'var(--text-muted)' }}>{note}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </motion.div>
+          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '5rem', alignItems: 'start' }}>
+            <div>
+              <motion.div initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }} transition={{ duration:0.7 }}
+                style={{ marginBottom: '2rem' }}>
+                <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.7rem' }}>What's Inside Every Bottle</p>
+                <h2 style={{ fontWeight:300 }}>Five Reasons<br /><em>to Choose Healtho</em></h2>
+              </motion.div>
+              <ScrollFeatures />
+            </div>
+
+            {/* Sticky bottle visual */}
+            <div style={{ position: 'sticky', top: '120px', alignSelf: 'start' }}>
+              <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border-gold)', background: 'rgba(10,30,56,0.6)' }}>
+                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 30%, rgba(0,180,216,0.10), transparent 70%)', pointerEvents: 'none' }} />
+                <img src="/assets/bottle-hero.jpg" alt="Healtho" style={{ width: '100%', display: 'block', maxHeight: '460px', objectFit: 'contain', padding: '2rem', mixBlendMode: 'multiply', filter: 'brightness(1.4) saturate(1.1)' }} />
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 

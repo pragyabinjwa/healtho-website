@@ -81,7 +81,7 @@ export default function Footer() {
 
         <div style={{ paddingTop: '1.5rem', display: 'flex', flexWrap: 'wrap', gap: '1rem', justifyContent: 'space-between', alignItems: 'center' }}>
           <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-            © {new Date().getFullYear()} Healtho — Mahima Chilled Water. All rights reserved.
+            © {new Date().getFullYear()} Healtho. All rights reserved.
           </p>
           <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
             FSSAI {FSSAI_NO} · pH 8.5+ · BPA Free
