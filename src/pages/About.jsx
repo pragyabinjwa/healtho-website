@@ -69,7 +69,7 @@ const TABS = [
     label: 'FSSAI Licensed',
     Icon: AwardIcon,
     heading: 'FSSAI Licensed & Certified',
-    content: 'Government-certified facility under FSSAI License No. 11423850000323. Independently audited and renewed annually — our licence is our commitment to your safety and trust.',
+    content: 'Government-certified facility, independently audited and renewed annually. Our FSSAI licence is our commitment to your safety and trust.',
   },
   {
     label: 'Quality',

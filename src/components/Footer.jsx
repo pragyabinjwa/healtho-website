@@ -4,9 +4,7 @@ import { WAIcon } from './Icons'
 const WA_NUMBER = '919109348483'
 const WA_LINK   = `https://wa.me/${WA_NUMBER}`
 const EMAIL     = 'healthoalkalinewater@gmail.com'
-const ADDRESS   = '1 Abhinav Nagar, Near Teen Imli Square, Ring Road, Madhya Pradesh 452001'
-const FSSAI_NO  = '11423850000323'
-const GSTIN     = '23CANPC8799P1ZP'
+const ADDRESS   = 'Abhinav Nagar, Near Teen Imli Square, Ring Road, Madhya Pradesh 452001'
 
 export default function Footer() {
   return (
@@ -52,19 +50,8 @@ export default function Footer() {
           {/* Compliance */}
           <div>
             <h4 style={{ fontSize: '0.72rem', letterSpacing: '0.2em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '1.2rem' }}>Compliance</h4>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-              <div>
-                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.15rem' }}>GSTIN</div>
-                <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontFamily: 'monospace', letterSpacing: '0.05em' }}>{GSTIN}</div>
-              </div>
-              <div>
-                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '0.15rem' }}>FSSAI License</div>
-                <div style={{ fontSize: '0.88rem', color: 'var(--text-primary)', fontFamily: 'monospace', letterSpacing: '0.05em', marginBottom: '0.4rem' }}>{FSSAI_NO}</div>
-                <a href="/assets/fssai-certificate.pdf" target="_blank" rel="noreferrer"
-                  style={{ fontSize: '0.72rem', color: 'var(--gold)', letterSpacing: '0.1em', textTransform: 'uppercase', textDecoration: 'underline', textUnderlineOffset: '3px' }}>
-                  View Certificate ↗
-                </a>
-              </div>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.45rem 1rem', borderRadius: '50px', border: '1px solid var(--border-gold)', background: 'rgba(201,160,39,0.06)' }}>
+              <span style={{ fontSize: '0.78rem', color: 'var(--gold)', fontWeight: 500, letterSpacing: '0.05em' }}>✓ FSSAI Certified</span>
             </div>
           </div>
 
@@ -84,7 +71,7 @@ export default function Footer() {
             © {new Date().getFullYear()} Healtho. All rights reserved.
           </p>
           <p style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>
-            FSSAI {FSSAI_NO} · pH 8.5+ · BPA Free
+            FSSAI Certified · pH 8.5+ · BPA Free
           </p>
         </div>
       </div>

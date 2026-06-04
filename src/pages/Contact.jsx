@@ -5,8 +5,8 @@ import { WAIcon } from '../components/Icons'
 
 const WA_NUMBER = '919109348483'
 const EMAIL     = 'healthoalkalinewater@gmail.com'
-const ADDRESS   = '1 Abhinav Nagar, Near Teen Imli Square, Ring Road, Madhya Pradesh 452001'
-const MAP_EMBED = 'https://maps.google.com/maps?q=1+Abhinav+Nagar+Near+Teen+Imli+Square+Ring+Road+Indore+Madhya+Pradesh+452001+India&output=embed&z=15'
+const ADDRESS   = 'Abhinav Nagar, Near Teen Imli Square, Ring Road, Madhya Pradesh 452001'
+const MAP_EMBED = 'https://maps.google.com/maps?q=Abhinav+Nagar+Near+Teen+Imli+Square+Ring+Road+Indore+Madhya+Pradesh+452001+India&output=embed&z=15'
 
 export default function Contact() {
   const [form, setForm]   = useState({ name: '', email: '', phone: '', message: '' })
