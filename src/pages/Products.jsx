@@ -181,35 +181,36 @@ export default function Products() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════
-          HERO
+          HERO — full-bleed image, dark text on left
       ══════════════════════════════════════════════════════ */}
       <section style={{
         minHeight: '100vh', display: 'flex', alignItems: 'center',
         position: 'relative', overflow: 'hidden',
-        background: 'radial-gradient(ellipse 120% 70% at 50% 100%, rgba(0,180,216,0.09), transparent 60%), linear-gradient(155deg, #020810, #050D1A 40%, #0A1E38)',
       }}>
-        <WaveCanvas intensity={1.4} />
-
-        {/* Bottle — right */}
-        <div className="hero-bottle" style={{ position:'absolute', right:'6%', top:'50%', transform:'translateY(-50%)', zIndex:1 }}>
-          <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'420px', height:'420px', background:'radial-gradient(circle, rgba(0,180,216,0.18), transparent 70%)', borderRadius:'50%', filter:'blur(32px)', pointerEvents:'none' }} />
-          <motion.img src="/assets/bottle-hero.jpeg" alt="Healtho Alkaline Water 1L"
-            initial={{ opacity:0, scale:0.92 }} animate={{ opacity:1, scale:1 }} transition={{ duration:1.2, ease:[0.4,0,0.2,1] }}
-            style={{ height:'78vh', maxHeight:'640px', objectFit:'contain', position:'relative', zIndex:1, filter:'drop-shadow(0 40px 80px rgba(0,180,216,0.28)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))' }} />
+        {/* Full-bleed background image — bottle shifted right */}
+        <div style={{ position:'absolute', inset:0, zIndex:0 }}>
+          <img src="/assets/bottle-hero.jpeg" alt=""
+            style={{ width:'100%', height:'100%', objectFit:'cover', objectPosition:'70% center', display:'block' }} />
+          {/* Gradient: left side bright+light for text, fades to transparent right */}
+          <div style={{
+            position:'absolute', inset:0,
+            background:'linear-gradient(to right, rgba(248,251,255,0.94) 0%, rgba(248,251,255,0.85) 28%, rgba(248,251,255,0.50) 50%, rgba(248,251,255,0.05) 70%, transparent 100%)',
+          }} />
         </div>
 
-        {/* Text — left */}
-        <div className="container" style={{ position:'relative', zIndex:2 }}>
-          <div style={{ maxWidth: '520px' }}>
+        {/* Text — left side, dark colours so visible on light bg */}
+        <div className="container" style={{ position:'relative', zIndex:2, paddingTop:'80px' }}>
+          <div style={{ maxWidth: '500px' }}>
             <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:0.8 }}
-              style={{ fontSize:'0.72rem', letterSpacing:'0.32em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.8rem' }}>
+              style={{ fontSize:'0.72rem', letterSpacing:'0.32em', textTransform:'uppercase', color:'#0A4080', marginBottom:'0.8rem', fontWeight:600 }}>
               Healtho — Packaged Drinking Water
             </motion.p>
-            <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }} style={{ fontWeight:300, marginBottom:'0.4rem' }}>
+            <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }}
+              style={{ fontWeight:300, marginBottom:'0.4rem', color:'#05101F' }}>
               Healtho Alkaline
             </motion.h1>
             <motion.h2 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.35 }}
-              style={{ fontWeight:300, color:'var(--blue)', marginBottom:'1.5rem', fontSize:'clamp(1.3rem,2.8vw,2rem)' }}>
+              style={{ fontWeight:300, color:'#0B3D91', marginBottom:'1.5rem', fontSize:'clamp(1.3rem,2.8vw,2rem)' }}>
               <em>Premium Drinking Water</em>
             </motion.h2>
 
@@ -223,8 +224,8 @@ export default function Products() {
                 'FSSAI certified · BPA free',
               ].map(line => (
                 <div key={line} style={{ display:'flex', alignItems:'center', gap:'0.65rem' }}>
-                  <CheckIcon size={14} color="var(--gold)" strokeWidth={2.5} />
-                  <span style={{ fontSize:'0.95rem', color:'var(--text-muted)' }}>{line}</span>
+                  <CheckIcon size={14} color="#0B5EA8" strokeWidth={2.5} />
+                  <span style={{ fontSize:'0.95rem', color:'#1A2D4A', fontWeight:500 }}>{line}</span>
                 </div>
               ))}
             </motion.div>

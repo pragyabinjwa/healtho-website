@@ -100,84 +100,88 @@ export default function Home() {
   return (
     <>
       {/* ══════════════════════════════════════════════════════
-          HERO
+          HERO — true two-column grid, zero overlap
       ══════════════════════════════════════════════════════ */}
       <section ref={heroRef} style={{
-        position: 'relative', minHeight: '100vh',
-        display: 'flex', alignItems: 'center',
+        minHeight: '100vh',
+        display: 'grid',
+        gridTemplateColumns: '1fr 1fr',
         overflow: 'hidden',
-        background: 'radial-gradient(ellipse 130% 90% at 60% 110%, rgba(0,180,216,0.10) 0%, transparent 55%), linear-gradient(160deg, #020810 0%, #050D1A 35%, #0A1E38 65%, #0B3D91 100%)',
       }}>
-        <WaveCanvas intensity={1.2} />
-
-        {/* Bottle — right, clean graphic */}
-        <motion.div className="hero-bottle" style={{
-          y: bottleY, position: 'absolute', right: '4%', top: '50%', transform: 'translateY(-50%)', zIndex: 1,
+        {/* LEFT — dark panel, wave, all text */}
+        <div style={{
+          position: 'relative',
+          background: 'linear-gradient(160deg, #020810 0%, #050D1A 40%, #0A1E38 100%)',
+          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+          padding: 'calc(80px + 3rem) 3rem 4rem 8%',
+          zIndex: 2,
         }}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(0,180,216,0.20) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(36px)', pointerEvents: 'none' }} />
-          <img src="/assets/bottle-hero.jpeg" alt="Healtho Alkaline Water"
-            style={{ height: '80vh', maxHeight: '700px', objectFit: 'contain', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 40px 80px rgba(0,180,216,0.30)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))' }} />
-        </motion.div>
+          <WaveCanvas intensity={1.0} />
 
-        {/* Floating particles */}
-        {[
-          { top:'18%', left:'8%',  size:5, color:'rgba(0,180,216,0.5)',   dur:4.2, d:0 },
-          { top:'42%', left:'4%',  size:3, color:'rgba(201,160,39,0.4)',  dur:5.0, d:1.2 },
-          { top:'72%', left:'12%', size:6, color:'rgba(0,180,216,0.35)',  dur:3.8, d:0.6 },
-          { top:'28%', left:'44%', size:4, color:'rgba(255,255,255,0.15)', dur:6.0, d:2.0 },
-        ].map((p, i) => (
-          <motion.div key={i}
-            style={{ position:'absolute', top:p.top, left:p.left, width:p.size, height:p.size, borderRadius:'50%', background:p.color, pointerEvents:'none' }}
-            animate={{ y:[0,-16,0], opacity:[0.3,0.9,0.3] }}
-            transition={{ duration:p.dur, repeat:Infinity, delay:p.d, ease:'easeInOut' }} />
-        ))}
+          {/* Floating particles (left panel only) */}
+          {[
+            { top:'18%', left:'12%', size:5, color:'rgba(0,180,216,0.5)',  dur:4.2, d:0 },
+            { top:'55%', left:'6%',  size:3, color:'rgba(201,160,39,0.4)', dur:5.0, d:1.2 },
+            { top:'80%', left:'20%', size:6, color:'rgba(0,180,216,0.35)', dur:3.8, d:0.6 },
+          ].map((p, i) => (
+            <motion.div key={i}
+              style={{ position:'absolute', top:p.top, left:p.left, width:p.size, height:p.size, borderRadius:'50%', background:p.color, pointerEvents:'none', zIndex:1 }}
+              animate={{ y:[0,-14,0], opacity:[0.3,0.8,0.3] }}
+              transition={{ duration:p.dur, repeat:Infinity, delay:p.d, ease:'easeInOut' }} />
+          ))}
 
-        {/* Hero text — left aligned */}
-        <motion.div style={{ y: textY, opacity: heroOp, position: 'relative', zIndex: 2 }} className="container">
-          <div style={{ maxWidth: '560px' }}>
-
-            {/* Logo — bigger */}
+          <motion.div style={{ y: textY, opacity: heroOp, position: 'relative', zIndex: 2 }}>
+            {/* Logo */}
             <motion.div {...stagger(0.15)} style={{ marginBottom: '1.6rem' }}>
               <img src="/assets/logo.png" alt="Healtho"
                 style={{ height: '100px', filter: 'drop-shadow(0 0 14px rgba(0,180,216,0.45))' }} />
             </motion.div>
 
             {/* Heading */}
-            <motion.h1 {...stagger(0.3)} style={{ fontWeight: 300, letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: '0.7rem', fontSize: 'clamp(2.2rem, 4.5vw, 3.6rem)' }}>
+            <motion.h1 {...stagger(0.3)} style={{ fontWeight: 300, letterSpacing: '-0.01em', lineHeight: 1.1, marginBottom: '0.7rem', fontSize: 'clamp(2rem, 3.2vw, 3.4rem)' }}>
               Premium <em style={{ color: 'var(--blue)' }}>Alkaline</em> Water
             </motion.h1>
 
             {/* Tagline */}
-            <motion.p {...stagger(0.44)} style={{ fontSize: '0.78rem', letterSpacing: '0.32em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '1.8rem' }}>
+            <motion.p {...stagger(0.44)} style={{ fontSize: '0.76rem', letterSpacing: '0.32em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: '1.6rem' }}>
               pure · premium · perfect
             </motion.p>
 
-            {/* Description — 2 paragraphs, bigger */}
-            <motion.p {...stagger(0.56)} style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'var(--text-muted)', maxWidth: '480px', marginBottom: '1rem' }}>
+            {/* Description — 2 paragraphs */}
+            <motion.p {...stagger(0.56)} style={{ fontSize: '1rem', lineHeight: 1.85, color: 'var(--text-muted)', marginBottom: '0.9rem' }}>
               Healtho is India's premium packaged alkaline drinking water — 7-layer in-house filtration, pH 8.5+, mineral-enhanced, and FSSAI certified. Available in 1L for retail and bulk orders.
             </motion.p>
-            <motion.p {...stagger(0.64)} style={{ fontSize: '1.05rem', lineHeight: 1.85, color: 'var(--text-muted)', maxWidth: '480px', marginBottom: '2.2rem' }}>
+            <motion.p {...stagger(0.64)} style={{ fontSize: '1rem', lineHeight: 1.85, color: 'var(--text-muted)', marginBottom: '2rem' }}>
               We also offer end-to-end custom label solutions for businesses — hotels, restaurants, corporates, and events — in four sizes with your branding.
             </motion.p>
 
-            {/* Two CTAs */}
+            {/* CTAs */}
             <motion.div {...stagger(0.76)} style={{ display: 'flex', gap: '0.9rem', flexWrap: 'wrap' }}>
-              <Link to="/products" className="btn btn-gold" style={{ gap: '0.5rem', fontSize: '0.95rem', padding: '0.85rem 1.8rem' }}>
+              <Link to="/products" className="btn btn-gold" style={{ gap: '0.5rem' }}>
                 Explore Products <ArrowRight size={15} color="currentColor" />
               </Link>
-              <Link to="/services" className="btn btn-outline" style={{ gap: '0.5rem', fontSize: '0.95rem', padding: '0.85rem 1.8rem' }}>
+              <Link to="/services" className="btn btn-outline" style={{ gap: '0.5rem' }}>
                 Explore Services <ArrowRight size={15} color="currentColor" />
               </Link>
             </motion.div>
-          </div>
-        </motion.div>
+          </motion.div>
 
-        {/* Scroll cue */}
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1 }}
-          style={{ position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', zIndex: 2 }}>
-          <span style={{ fontSize: '0.64rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Scroll</span>
-          <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
-            style={{ width: '1px', height: '38px', background: 'linear-gradient(to bottom, var(--gold), transparent)' }} />
+          {/* Scroll cue */}
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 2.2, duration: 1 }}
+            style={{ position: 'absolute', bottom: '2rem', left: '50%', transform: 'translateX(-50%)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '0.5rem', zIndex: 2 }}>
+            <span style={{ fontSize: '0.6rem', letterSpacing: '0.25em', textTransform: 'uppercase', color: 'var(--text-muted)' }}>Scroll</span>
+            <motion.div animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 1.6, ease: 'easeInOut' }}
+              style={{ width: '1px', height: '36px', background: 'linear-gradient(to bottom, var(--gold), transparent)' }} />
+          </motion.div>
+        </div>
+
+        {/* RIGHT — product image, fills full height */}
+        <motion.div style={{ y: bottleY, position: 'relative', overflow: 'hidden' }}>
+          <img
+            src="/assets/bottle-hero.jpeg"
+            alt="Healtho Alkaline Water 1L"
+            style={{ width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center', display: 'block' }}
+          />
         </motion.div>
       </section>
 
@@ -277,8 +281,14 @@ export default function Home() {
       </section>
 
       <style>{`
+        /* Hero two-column: stack on mobile */
         @media (max-width: 860px) {
-          .hero-bottle { display: none !important; }
+          section[style*="grid-template-columns: 1fr 1fr"]:first-of-type {
+            grid-template-columns: 1fr !important;
+          }
+          section[style*="grid-template-columns: 1fr 1fr"]:first-of-type > div:last-child {
+            height: 55vw; min-height: 280px;
+          }
         }
         @media (max-width: 800px) {
           section > .container > div[style*="grid-template-columns: 1fr 1fr"] {
