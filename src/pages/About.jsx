@@ -156,8 +156,8 @@ export default function About() {
           HERO
       ══════════════════════════════════════════════════════ */}
       <section style={{
-        minHeight: '55vh', display: 'flex', alignItems: 'flex-end',
-        position: 'relative', overflow: 'hidden', paddingBottom: '4.5rem',
+        minHeight: '100vh', display: 'flex', alignItems: 'flex-end',
+        position: 'relative', overflow: 'hidden', paddingBottom: '6rem',
         background: 'linear-gradient(160deg, #020810, #050D1A 35%, #0A1E38 65%, #051828)',
       }}>
         <WaveCanvas intensity={0.9} />

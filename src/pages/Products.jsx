@@ -5,15 +5,30 @@ import { DropIcon, PHIcon, LayersIcon, ShieldIcon, AwardIcon, CheckIcon, WAIcon,
 
 const WA_NUMBER = '919109348483'
 
+/* ── Pincode → area lookup ─────────────────────────────────── */
+async function lookupPincode(pin) {
+  if (!/^\d{6}$/.test(pin)) return ''
+  try {
+    const res  = await fetch(`https://api.postalpincode.in/pincode/${pin}`)
+    const data = await res.json()
+    if (data[0]?.Status === 'Success' && data[0]?.PostOffice?.length > 0) {
+      const po = data[0].PostOffice[0]
+      return `${po.Name}, ${po.District}, ${po.State}`
+    }
+  } catch {}
+  return ''
+}
+
 /* ── WhatsApp message builder ──────────────────────────────── */
-function buildMsg(f) {
+function buildMsg(f, area) {
   return [
     'Hi Healtho! 👋 I would like to get a quote for Healtho Alkaline Water (1L).',
     '',
     `*Name:* ${f.name || '—'}`,
+    `*Email:* ${f.email || '—'}`,
     `*Phone:* ${f.phone || '—'}`,
     `*Quantity Required:* ${f.qty || '—'}`,
-    `*Delivery Location:* ${f.location || '—'}`,
+    `*Delivery Pincode:* ${f.pincode || '—'}${area ? ` — ${area}` : ''}`,
     f.notes ? `*Additional Notes:* ${f.notes}` : '',
     '',
     'Please share pricing and availability. Thank you!',
@@ -22,8 +37,23 @@ function buildMsg(f) {
 
 /* ── Quote modal ───────────────────────────────────────────── */
 function QuoteModal({ onClose }) {
-  const [form, setForm] = useState({ name:'', phone:'', qty:'', location:'', notes:'' })
+  const [form, setForm] = useState({ name:'', email:'', phone:'', qty:'', pincode:'', notes:'' })
+  const [area, setArea] = useState('')
+  const [pinLoading, setPinLoading] = useState(false)
   const s = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
+
+  const handlePincode = async (e) => {
+    const pin = e.target.value
+    setForm(f => ({ ...f, pincode: pin }))
+    if (pin.length === 6) {
+      setPinLoading(true)
+      const found = await lookupPincode(pin)
+      setArea(found)
+      setPinLoading(false)
+    } else {
+      setArea('')
+    }
+  }
 
   const inp = {
     width: '100%', padding: '0.8rem 1rem',
@@ -37,46 +67,52 @@ function QuoteModal({ onClose }) {
 
   const submit = e => {
     e.preventDefault()
-    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildMsg(form))}`, '_blank')
+    window.open(`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent(buildMsg(form, area))}`, '_blank')
     onClose()
   }
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
       onClick={onClose}
-      style={{ position: 'fixed', inset: 0, zIndex: 9000, background: 'rgba(2,8,16,0.92)', backdropFilter: 'blur(16px)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
-      <motion.div initial={{ scale: 0.9, y: 20 }} animate={{ scale: 1, y: 0 }} exit={{ scale: 0.9, y: 20 }}
+      style={{ position:'fixed', inset:0, zIndex:9000, background:'rgba(2,8,16,0.92)', backdropFilter:'blur(16px)', display:'flex', alignItems:'center', justifyContent:'center', padding:'1.5rem' }}>
+      <motion.div initial={{ scale:0.9, y:20 }} animate={{ scale:1, y:0 }} exit={{ scale:0.9, y:20 }}
         onClick={e => e.stopPropagation()}
-        style={{ background: 'var(--bg-secondary)', border: '1px solid var(--border-gold)', borderRadius: '20px', padding: '2.5rem', maxWidth: '480px', width: '100%', maxHeight: '90vh', overflowY: 'auto' }}>
+        style={{ background:'var(--bg-secondary)', border:'1px solid var(--border-gold)', borderRadius:'20px', padding:'2.5rem', maxWidth:'500px', width:'100%', maxHeight:'90vh', overflowY:'auto' }}>
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1.5rem' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:'1.5rem' }}>
           <div>
-            <h3 style={{ color: 'var(--gold)', fontFamily: 'var(--font-serif)', marginBottom: '0.3rem' }}>Get a Quote</h3>
-            <p style={{ fontSize: '0.82rem', margin: 0 }}>Healtho Alkaline Water · 1 L — Fill in your details, we'll reach out on WhatsApp.</p>
+            <h3 style={{ color:'var(--gold)', fontFamily:'var(--font-serif)', marginBottom:'0.3rem' }}>Get a Quote</h3>
+            <p style={{ fontSize:'0.82rem', margin:0 }}>Healtho Alkaline Water · 1L — We'll reach out on WhatsApp.</p>
           </div>
-          <button onClick={onClose} style={{ width: '32px', height: '32px', borderRadius: '50%', background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)', color: 'var(--text-muted)', cursor: 'pointer', fontSize: '1.1rem', display: 'grid', placeItems: 'center' }}>×</button>
+          <button onClick={onClose} style={{ width:'32px', height:'32px', borderRadius:'50%', background:'rgba(255,255,255,0.06)', border:'1px solid rgba(255,255,255,0.1)', color:'var(--text-muted)', cursor:'pointer', fontSize:'1.1rem', display:'grid', placeItems:'center' }}>×</button>
         </div>
 
-        <form onSubmit={submit} style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
+        <form onSubmit={submit} style={{ display:'flex', flexDirection:'column', gap:'1rem' }}>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.8rem' }}>
             <div><label style={lbl}>Your Name *</label><input required style={inp} onFocus={onF} onBlur={onB} placeholder="Rahul Sharma" value={form.name} onChange={s('name')} /></div>
             <div><label style={lbl}>Phone *</label><input required type="tel" style={inp} onFocus={onF} onBlur={onB} placeholder="+91 98765 43210" value={form.phone} onChange={s('phone')} /></div>
           </div>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '0.8rem' }}>
+          <div><label style={lbl}>Email</label><input type="email" style={inp} onFocus={onF} onBlur={onB} placeholder="you@example.com" value={form.email} onChange={s('email')} /></div>
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0.8rem' }}>
             <div><label style={lbl}>Quantity</label><input style={inp} onFocus={onF} onBlur={onB} placeholder="e.g. 200 bottles" value={form.qty} onChange={s('qty')} /></div>
-            <div><label style={lbl}>Delivery Location</label><input style={inp} onFocus={onF} onBlur={onB} placeholder="City / Area" value={form.location} onChange={s('location')} /></div>
+            <div>
+              <label style={lbl}>Delivery Pincode</label>
+              <input style={inp} onFocus={onF} onBlur={onB} placeholder="e.g. 452001" maxLength={6} value={form.pincode} onChange={handlePincode} />
+              {area && <p style={{ fontSize:'0.72rem', color:'var(--blue)', marginTop:'0.3rem' }}>📍 {area}</p>}
+              {pinLoading && <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', marginTop:'0.3rem' }}>Looking up…</p>}
+            </div>
           </div>
           <div>
             <label style={lbl}>Additional Notes</label>
-            <textarea rows={3} style={{ ...inp, resize: 'vertical', minHeight: '80px' }} onFocus={onF} onBlur={onB}
+            <textarea rows={3} style={{ ...inp, resize:'vertical', minHeight:'80px' }} onFocus={onF} onBlur={onB}
               placeholder="Frequency, event date, special requirements..."
               value={form.notes} onChange={s('notes')} />
           </div>
-          <button type="submit" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.6rem', padding: '0.9rem', background: '#25D366', border: 'none', borderRadius: '10px', color: '#fff', fontSize: '0.9rem', fontWeight: 600, cursor: 'pointer', transition: 'opacity 0.2s', fontFamily: 'var(--font-sans)' }}
+          <button type="submit" style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'0.6rem', padding:'0.9rem', background:'#25D366', border:'none', borderRadius:'10px', color:'#fff', fontSize:'0.9rem', fontWeight:600, cursor:'pointer', transition:'opacity 0.2s', fontFamily:'var(--font-sans)' }}
             onMouseEnter={e => e.currentTarget.style.opacity='0.88'} onMouseLeave={e => e.currentTarget.style.opacity='1'}>
             <WAIcon size={18} /> Send via WhatsApp
           </button>
-          <p style={{ fontSize: '0.72rem', color: 'var(--text-muted)', textAlign: 'center', margin: 0 }}>Opens WhatsApp with your enquiry pre-filled.</p>
+          <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', textAlign:'center', margin:0 }}>Opens WhatsApp with your enquiry pre-filled.</p>
         </form>
       </motion.div>
     </motion.div>
@@ -116,13 +152,13 @@ function ScrollReasons() {
             opacity: active === i ? 1 : 0.28,
             transition: 'opacity 0.5s ease, border-color 0.5s ease',
           }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.9rem', marginBottom: '0.5rem' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:'0.9rem', marginBottom:'0.5rem' }}>
             <r.Icon size={22} color={active === i ? r.color : 'var(--text-muted)'} strokeWidth={1.4} />
-            <h3 style={{ fontFamily: 'var(--font-serif)', fontSize: '1.05rem', color: active === i ? 'var(--text-primary)' : 'var(--text-muted)', transition: 'color 0.5s', margin: 0 }}>
+            <h3 style={{ fontFamily:'var(--font-serif)', fontSize:'1.05rem', color:active === i ? 'var(--text-primary)' : 'var(--text-muted)', transition:'color 0.5s', margin:0 }}>
               {r.title}
             </h3>
           </div>
-          <p style={{ maxWidth: '480px', lineHeight: 1.7, margin: 0, fontSize: '0.82rem' }}>{r.desc}</p>
+          <p style={{ maxWidth:'480px', lineHeight:1.7, margin:0, fontSize:'0.82rem' }}>{r.desc}</p>
         </div>
       ))}
     </div>
@@ -132,7 +168,7 @@ function ScrollReasons() {
 /* ── Product specs ─────────────────────────────────────────── */
 const SPECS = [
   { Icon: PHIcon,     label: 'pH Level',     value: '8.5 – 9.0',   note: 'Alkaline' },
-  { Icon: DropIcon,   label: 'Volume',        value: '1 Litre',     note: 'Glass bottle' },
+  { Icon: DropIcon,   label: 'Volume',        value: '1 Litre',     note: 'Packaged bottle' },
   { Icon: LayersIcon, label: 'Filtration',    value: '7-Layer RO',  note: 'In-house plant' },
   { Icon: ShieldIcon, label: 'Packaging',     value: 'BPA Free',    note: 'Food-grade' },
   { Icon: AwardIcon,  label: 'Certification', value: 'FSSAI',       note: 'Govt licensed' },
@@ -155,44 +191,40 @@ export default function Products() {
         <WaveCanvas intensity={1.4} />
 
         {/* Bottle — right */}
-        <div style={{ position: 'absolute', right: '6%', top: '50%', transform: 'translateY(-50%)', zIndex: 1 }}>
-          <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '420px', height: '420px', background: 'radial-gradient(circle, rgba(0,180,216,0.18), transparent 70%)', borderRadius: '50%', filter: 'blur(32px)', pointerEvents: 'none' }} />
-          <motion.img
-            src="/assets/bottle-hero.jpg"
-            alt="Healtho Alkaline Water 1L"
-            initial={{ opacity: 0, scale: 0.92 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 1.2, ease: [0.4,0,0.2,1] }}
-            style={{ height: '78vh', maxHeight: '640px', objectFit: 'contain', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 40px 80px rgba(0,180,216,0.28)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))' }}
-          />
+        <div style={{ position:'absolute', right:'6%', top:'50%', transform:'translateY(-50%)', zIndex:1 }}>
+          <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'420px', height:'420px', background:'radial-gradient(circle, rgba(0,180,216,0.18), transparent 70%)', borderRadius:'50%', filter:'blur(32px)', pointerEvents:'none' }} />
+          <motion.img src="/assets/bottle-hero.jpg" alt="Healtho Alkaline Water 1L"
+            initial={{ opacity:0, scale:0.92 }} animate={{ opacity:1, scale:1 }} transition={{ duration:1.2, ease:[0.4,0,0.2,1] }}
+            style={{ height:'78vh', maxHeight:'640px', objectFit:'contain', position:'relative', zIndex:1, filter:'drop-shadow(0 40px 80px rgba(0,180,216,0.28)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))' }} />
         </div>
 
         {/* Text — left */}
-        <div className="container" style={{ position: 'relative', zIndex: 2 }}>
+        <div className="container" style={{ position:'relative', zIndex:2 }}>
           <div style={{ maxWidth: '520px' }}>
             <motion.p initial={{ opacity:0 }} animate={{ opacity:1 }} transition={{ duration:0.8 }}
               style={{ fontSize:'0.72rem', letterSpacing:'0.32em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.8rem' }}>
-              Healtho — Our Hero Product
+              Healtho — Packaged Drinking Water
             </motion.p>
-            <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }}
-              style={{ fontWeight:300, marginBottom:'0.4rem' }}>
+            <motion.h1 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.2 }} style={{ fontWeight:300, marginBottom:'0.4rem' }}>
               Healtho Alkaline
             </motion.h1>
             <motion.h2 initial={{ opacity:0, y:30 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.35 }}
               style={{ fontWeight:300, color:'var(--blue)', marginBottom:'1.5rem', fontSize:'clamp(1.3rem,2.8vw,2rem)' }}>
-              <em>Packaged Drinking Water</em>
+              <em>Premium Drinking Water</em>
             </motion.h2>
 
-            {/* Key highlights */}
+            {/* Highlights */}
             <motion.div initial={{ opacity:0, y:20 }} animate={{ opacity:1, y:0 }} transition={{ duration:0.9, delay:0.5 }}
-              style={{ display:'flex', flexDirection:'column', gap:'0.5rem', marginBottom:'1.8rem' }}>
+              style={{ display:'flex', flexDirection:'column', gap:'0.55rem', marginBottom:'2rem' }}>
               {[
-                '1 Litre premium glass bottle',
+                '1 Litre packaged bottle',
                 '7-layer in-house RO filtration',
                 'pH 8.5+ · Mineral enhanced',
                 'FSSAI certified · BPA free',
               ].map(line => (
                 <div key={line} style={{ display:'flex', alignItems:'center', gap:'0.65rem' }}>
                   <CheckIcon size={14} color="var(--gold)" strokeWidth={2.5} />
-                  <span style={{ fontSize:'0.9rem', color:'var(--text-muted)' }}>{line}</span>
+                  <span style={{ fontSize:'0.95rem', color:'var(--text-muted)' }}>{line}</span>
                 </div>
               ))}
             </motion.div>
@@ -207,21 +239,21 @@ export default function Products() {
       </section>
 
       {/* ══════════════════════════════════════════════════════
-          PRODUCT SPECS — quick visual
+          PRODUCT SPECS — all in one line, bigger icons
       ══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '3.5rem 0', background: 'var(--bg-secondary)', borderTop: '1px solid var(--border-gold)', borderBottom: '1px solid var(--border-gold)' }}>
+      <section style={{ padding:'3.5rem 0', background:'var(--bg-secondary)', borderTop:'1px solid var(--border-gold)', borderBottom:'1px solid var(--border-gold)' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: '1rem', maxWidth: '900px', margin: '0 auto' }}>
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(6,1fr)', gap:'0.9rem' }}>
             {SPECS.map(({ Icon, label, value, note }, i) => (
               <motion.div key={label}
                 initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.45, delay:i*0.06 }}
-                style={{ textAlign:'center', padding:'1.2rem 1rem', background:'rgba(10,30,56,0.5)', borderRadius:'12px', border:'1px solid var(--border-gold)' }}>
-                <div style={{ width:'38px', height:'38px', borderRadius:'10px', background:'rgba(201,160,39,0.08)', border:'1px solid var(--border-gold)', display:'grid', placeItems:'center', margin:'0 auto 0.7rem' }}>
-                  <Icon size={18} color="var(--gold)" strokeWidth={1.5} />
+                style={{ textAlign:'center', padding:'1.4rem 0.8rem', background:'rgba(10,30,56,0.5)', borderRadius:'14px', border:'1px solid var(--border-gold)' }}>
+                <div style={{ width:'52px', height:'52px', borderRadius:'14px', background:'rgba(201,160,39,0.08)', border:'1px solid var(--border-gold)', display:'grid', placeItems:'center', margin:'0 auto 0.8rem' }}>
+                  <Icon size={26} color="var(--gold)" strokeWidth={1.5} />
                 </div>
-                <div style={{ fontSize:'0.68rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'0.25rem' }}>{label}</div>
-                <div style={{ fontSize:'0.98rem', color:'var(--text-primary)', fontFamily:'var(--font-serif)', fontWeight:400 }}>{value}</div>
-                <div style={{ fontSize:'0.7rem', color:'var(--blue)', marginTop:'0.15rem' }}>{note}</div>
+                <div style={{ fontSize:'0.64rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.12em', marginBottom:'0.3rem' }}>{label}</div>
+                <div style={{ fontSize:'0.92rem', color:'var(--text-primary)', fontFamily:'var(--font-serif)' }}>{value}</div>
+                <div style={{ fontSize:'0.68rem', color:'var(--blue)', marginTop:'0.15rem' }}>{note}</div>
               </motion.div>
             ))}
           </div>
@@ -231,38 +263,24 @@ export default function Products() {
       {/* ══════════════════════════════════════════════════════
           5 REASONS TO CHOOSE HEALTHO
       ══════════════════════════════════════════════════════ */}
-      <section style={{ padding: '5rem 0' }}>
+      <section style={{ padding:'5rem 0' }}>
         <div className="container">
-          <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '5rem', alignItems: 'start' }}>
+          <div style={{ display:'grid', gridTemplateColumns:'2fr 1fr', gap:'5rem', alignItems:'start' }}>
             <div>
               <motion.div initial={{ opacity:0 }} whileInView={{ opacity:1 }} viewport={{ once:true }} transition={{ duration:0.7 }}
-                style={{ marginBottom: '2rem' }}>
+                style={{ marginBottom:'2rem' }}>
                 <p style={{ fontSize:'0.72rem', letterSpacing:'0.3em', textTransform:'uppercase', color:'var(--gold)', marginBottom:'0.7rem' }}>Why Healtho?</p>
                 <h2 style={{ fontWeight:300 }}>Five Reasons<br /><em>to Choose Healtho</em></h2>
               </motion.div>
               <ScrollReasons />
-
-              <motion.div initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6, delay:0.3 }}
-                style={{ marginTop:'2.5rem' }}>
-                <button onClick={() => setShowModal(true)} className="btn btn-gold" style={{ gap:'0.6rem' }}>
-                  Get a Quote <ArrowRight size={15} color="currentColor" />
-                </button>
-              </motion.div>
             </div>
 
-            {/* Sticky bottle visual */}
-            <div style={{ position: 'sticky', top: '120px', alignSelf: 'start' }}>
-              <div style={{ position: 'relative', borderRadius: '20px', overflow: 'hidden', border: '1px solid var(--border-gold)', background: 'rgba(10,30,56,0.6)' }}>
-                <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(circle at 50% 30%, rgba(0,180,216,0.10), transparent 70%)', pointerEvents: 'none' }} />
-                <img src="/assets/bottle-hero.jpg" alt="Healtho 1L" style={{ width: '100%', display: 'block', maxHeight: '460px', objectFit: 'contain', padding: '2rem' }} />
+            {/* Sticky bottle — no CTA below */}
+            <div style={{ position:'sticky', top:'120px', alignSelf:'start' }}>
+              <div style={{ position:'relative', borderRadius:'20px', overflow:'hidden', border:'1px solid var(--border-gold)', background:'rgba(10,30,56,0.6)' }}>
+                <div style={{ position:'absolute', inset:0, background:'radial-gradient(circle at 50% 30%, rgba(0,180,216,0.10), transparent 70%)', pointerEvents:'none' }} />
+                <img src="/assets/bottle-hero.jpg" alt="Healtho 1L" style={{ width:'100%', display:'block', maxHeight:'460px', objectFit:'contain', padding:'2rem' }} />
               </div>
-              <motion.button
-                onClick={() => setShowModal(true)}
-                whileHover={{ scale: 1.02 }}
-                className="btn btn-gold"
-                style={{ width:'100%', justifyContent:'center', marginTop:'1rem', gap:'0.5rem' }}>
-                Get a Quote <ArrowRight size={15} color="currentColor" />
-              </motion.button>
             </div>
           </div>
         </div>
@@ -276,6 +294,10 @@ export default function Products() {
       <style>{`
         @media (max-width: 900px) {
           section > .container > div[style*="grid-template-columns: 2fr 1fr"] { grid-template-columns: 1fr !important; }
+          section > .container > div[style*="grid-template-columns: repeat(6"] { grid-template-columns: repeat(3,1fr) !important; }
+        }
+        @media (max-width: 560px) {
+          section > .container > div[style*="grid-template-columns: repeat(6"] { grid-template-columns: repeat(2,1fr) !important; }
         }
       `}</style>
     </>

@@ -8,15 +8,21 @@ const EMAIL     = 'healthoalkalinewater@gmail.com'
 const ADDRESS   = 'Abhinav Nagar, Near Teen Imli Square, Ring Road, Madhya Pradesh 452001'
 const MAP_EMBED = 'https://maps.google.com/maps?q=Abhinav+Nagar+Near+Teen+Imli+Square+Ring+Road+Indore+Madhya+Pradesh+452001+India&output=embed&z=15'
 
+const INTERESTS = [
+  { value: 'Healtho Alkaline Water (1L)', label: 'Healtho Alkaline Water · 1L' },
+  { value: 'Custom Label Services',       label: 'Custom Label Services' },
+]
+
 export default function Contact() {
-  const [form, setForm]   = useState({ name: '', email: '', phone: '', message: '' })
-  const [sent, setSent]   = useState(false)
+  const [form, setForm] = useState({ name: '', email: '', phone: '', interest: 'Healtho Alkaline Water (1L)', message: '' })
+  const [sent, setSent]  = useState(false)
 
   const s = k => e => setForm(f => ({ ...f, [k]: e.target.value }))
 
   const buildMsg = () => [
     'Hi Healtho! 👋',
     '',
+    `*Interested in:* ${form.interest}`,
     `*Name:* ${form.name}`,
     `*Email:* ${form.email || '—'}`,
     `*Phone:* ${form.phone}`,
@@ -71,7 +77,6 @@ export default function Contact() {
 
             {/* Left: Map + contact info */}
             <motion.div initial={{ opacity:0, x:-40 }} whileInView={{ opacity:1, x:0 }} viewport={{ once:true }} transition={{ duration:0.85 }}>
-              {/* Map */}
               <div style={{ borderRadius:'20px', overflow:'hidden', border:'1px solid var(--border-gold)', marginBottom:'2rem', boxShadow:'0 20px 60px rgba(0,0,0,0.4)' }}>
                 <iframe
                   src={MAP_EMBED}
@@ -82,12 +87,11 @@ export default function Contact() {
                 />
               </div>
 
-              {/* Info */}
               <div style={{ display:'flex', flexDirection:'column', gap:'1rem' }}>
                 {[
-                  { label:'Address', value: ADDRESS, href: null },
-                  { label:'Email',   value: EMAIL,   href: `mailto:${EMAIL}` },
-                  { label:'WhatsApp',value: '+91 91093 48483', href:`https://wa.me/${WA_NUMBER}` },
+                  { label:'Address',   value: ADDRESS,            href: null },
+                  { label:'Email',     value: EMAIL,              href: `mailto:${EMAIL}` },
+                  { label:'WhatsApp',  value: '+91 91093 48483',  href:`https://wa.me/${WA_NUMBER}` },
                 ].map(({ label, value, href }) => (
                   <div key={label} style={{ display:'flex', gap:'1rem', alignItems:'flex-start', padding:'1rem 1.2rem', background:'rgba(10,30,56,0.5)', borderRadius:'12px', border:'1px solid var(--border-gold)' }}>
                     <div style={{ flexShrink:0, width:'6px', height:'6px', borderRadius:'50%', background:'var(--gold)', marginTop:'8px' }} />
@@ -114,6 +118,28 @@ export default function Contact() {
                     </p>
 
                     <form onSubmit={submit} style={{ display:'flex', flexDirection:'column', gap:'1.1rem' }}>
+                      {/* Interest selector */}
+                      <div>
+                        <label style={lbl}>I'm interested in *</label>
+                        <div style={{ display:'flex', gap:'0.8rem', flexWrap:'wrap' }}>
+                          {INTERESTS.map(({ value, label }) => (
+                            <label key={value} style={{
+                              display:'flex', alignItems:'center', gap:'0.5rem', cursor:'pointer',
+                              padding:'0.6rem 1.1rem',
+                              borderRadius:'8px',
+                              border:`1px solid ${form.interest === value ? 'var(--gold)' : 'rgba(0,180,216,0.2)'}`,
+                              background: form.interest === value ? 'rgba(201,160,39,0.08)' : 'rgba(10,30,56,0.4)',
+                              transition:'all 0.25s',
+                              fontSize:'0.86rem', color: form.interest === value ? 'var(--gold)' : 'var(--text-muted)',
+                            }}>
+                              <input type="radio" name="interest" value={value} checked={form.interest === value}
+                                onChange={s('interest')} style={{ display:'none' }} />
+                              {label}
+                            </label>
+                          ))}
+                        </div>
+                      </div>
+
                       <div>
                         <label style={lbl}>Your Name *</label>
                         <input required placeholder="Rahul Sharma" style={inp} onFocus={onF} onBlur={onB} value={form.name} onChange={s('name')} />
@@ -135,7 +161,6 @@ export default function Contact() {
                         onMouseEnter={e => e.currentTarget.style.opacity='0.88'} onMouseLeave={e => e.currentTarget.style.opacity='1'}>
                         <WAIcon size={18} /> Contact Us on WhatsApp
                       </button>
-
                       <p style={{ fontSize:'0.72rem', color:'var(--text-muted)', textAlign:'center', margin:0 }}>
                         Opens WhatsApp with your message pre-filled. No data stored.
                       </p>
@@ -152,16 +177,6 @@ export default function Contact() {
                   </motion.div>
                 )}
               </div>
-
-              {/* Quick WhatsApp */}
-              <motion.a href={`https://wa.me/${WA_NUMBER}?text=${encodeURIComponent('Hi Healtho! I would like to know more about your products.')}`}
-                target="_blank" rel="noreferrer"
-                initial={{ opacity:0, y:16 }} whileInView={{ opacity:1, y:0 }} viewport={{ once:true }} transition={{ duration:0.6, delay:0.3 }}
-                style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:'0.7rem', marginTop:'1rem', padding:'1rem', background:'rgba(37,211,102,0.06)', border:'1px solid rgba(37,211,102,0.2)', borderRadius:'12px', color:'#25D366', fontSize:'0.88rem', fontWeight:500, transition:'background 0.3s' }}
-                onMouseEnter={e => e.currentTarget.style.background='rgba(37,211,102,0.12)'}
-                onMouseLeave={e => e.currentTarget.style.background='rgba(37,211,102,0.06)'}>
-                <WAIcon size={18} /> Quick message on WhatsApp
-              </motion.a>
             </motion.div>
 
           </div>
@@ -171,8 +186,7 @@ export default function Contact() {
       <style>{`
         @media (max-width: 860px) {
           section > .container > div[style*="grid-template-columns: 1.1fr 1fr"] {
-            grid-template-columns: 1fr !important;
-            gap: 3rem !important;
+            grid-template-columns: 1fr !important; gap: 3rem !important;
           }
           iframe { height: 260px !important; }
         }
