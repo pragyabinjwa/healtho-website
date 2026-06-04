@@ -343,7 +343,7 @@ export default function Services() {
                 whileHover={{ y:-4, transition:{ duration:0.25 } }}
                 style={{ borderRadius:'18px', overflow:'hidden', border:'1px solid var(--border-gold)', background:'linear-gradient(160deg, rgba(10,30,56,0.85), rgba(5,13,26,0.9))' }}>
                 <div style={{ position:'relative', padding:'2rem 1rem 0', display:'flex', alignItems:'flex-end', justifyContent:'center', minHeight:'160px', background:'radial-gradient(circle at 50% 80%, rgba(0,180,216,0.08), transparent 70%)' }}>
-                  <img src="/assets/bottle-hero.jpg" alt={item.size} style={{ height:'130px', objectFit:'contain', display:'block' }} />
+                  <img src="/assets/bottle-hero.jpeg" alt={item.size} style={{ height:'130px', objectFit:'contain', display:'block' }} />
                 </div>
                 <div style={{ padding:'1.2rem' }}>
                   <div style={{ fontFamily:'var(--font-serif)', fontSize:'1.5rem', color:'var(--gold)', marginBottom:'0.2rem' }}>{item.size}</div>
@@ -479,6 +479,9 @@ export default function Services() {
         @media (max-width: 900px) {
           section > .container > div[style*="grid-template-columns: repeat(4"] { grid-template-columns: repeat(2,1fr) !important; }
           section > .container > div[style*="grid-template-columns: 1fr 1fr"] { grid-template-columns: 1fr !important; }
+        }
+        @media (max-width: 560px) {
+          section > .container > div[style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr 1fr !important; }
         }
       `}</style>
     </>

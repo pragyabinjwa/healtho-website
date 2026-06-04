@@ -129,12 +129,11 @@ function AboutTabs() {
 
 /* ── Gallery ────────────────────────────────────────────────── */
 const GALLERY = [
-  { id:1, src:'/assets/bottle-hero.jpg',       cat:'Product', caption:'Healtho 500ml — Premium Alkaline Water' },
-  { id:2, src:'/assets/bottle-concepts-1.jpg', cat:'Design',  caption:'Label Concepts — Series A' },
-  { id:3, src:'/assets/bottle-concepts-2.jpg', cat:'Design',  caption:'Label Concepts — Series B' },
-  { id:4, src:null, ph:'🏭', cat:'Factory',  caption:'RO Purification Unit — In-House Facility' },
-  { id:5, src:null, ph:'💧', cat:'Source',   caption:'Groundwater Source — Deep Aquifer' },
-  { id:6, src:null, ph:'📦', cat:'Product',  caption:'Bulk Supply — Dispenser Ready' },
+  { id:1, src:'/assets/bottle-hero.jpeg',  cat:'Product', caption:'Healtho Alkaline Water · 1L Premium' },
+  { id:2, src:'/assets/bottle-splash.jpeg', cat:'Product', caption:'Healtho — Pure in Motion' },
+  { id:3, src:null, ph:'🏭', cat:'Facility', caption:'RO Purification Unit — In-House Facility' },
+  { id:4, src:null, ph:'💧', cat:'Source',   caption:'Groundwater Source — Deep Aquifer' },
+  { id:5, src:null, ph:'📦', cat:'Product',  caption:'Bulk Supply — Dispenser Ready' },
 ]
 
 export default function About() {

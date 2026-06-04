@@ -191,9 +191,9 @@ export default function Products() {
         <WaveCanvas intensity={1.4} />
 
         {/* Bottle — right */}
-        <div style={{ position:'absolute', right:'6%', top:'50%', transform:'translateY(-50%)', zIndex:1 }}>
+        <div className="hero-bottle" style={{ position:'absolute', right:'6%', top:'50%', transform:'translateY(-50%)', zIndex:1 }}>
           <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'420px', height:'420px', background:'radial-gradient(circle, rgba(0,180,216,0.18), transparent 70%)', borderRadius:'50%', filter:'blur(32px)', pointerEvents:'none' }} />
-          <motion.img src="/assets/bottle-hero.jpg" alt="Healtho Alkaline Water 1L"
+          <motion.img src="/assets/bottle-hero.jpeg" alt="Healtho Alkaline Water 1L"
             initial={{ opacity:0, scale:0.92 }} animate={{ opacity:1, scale:1 }} transition={{ duration:1.2, ease:[0.4,0,0.2,1] }}
             style={{ height:'78vh', maxHeight:'640px', objectFit:'contain', position:'relative', zIndex:1, filter:'drop-shadow(0 40px 80px rgba(0,180,216,0.28)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))' }} />
         </div>
@@ -279,7 +279,7 @@ export default function Products() {
             <div style={{ position:'sticky', top:'120px', alignSelf:'start' }}>
               <div style={{ position:'relative', borderRadius:'20px', overflow:'hidden', border:'1px solid var(--border-gold)', background:'rgba(10,30,56,0.6)' }}>
                 <div style={{ position:'absolute', inset:0, background:'radial-gradient(circle at 50% 30%, rgba(0,180,216,0.10), transparent 70%)', pointerEvents:'none' }} />
-                <img src="/assets/bottle-hero.jpg" alt="Healtho 1L" style={{ width:'100%', display:'block', maxHeight:'460px', objectFit:'contain', padding:'2rem' }} />
+                <img src="/assets/bottle-hero.jpeg" alt="Healtho 1L" style={{ width:'100%', display:'block', maxHeight:'460px', objectFit:'contain', padding:'2rem' }} />
               </div>
             </div>
           </div>
@@ -292,6 +292,9 @@ export default function Products() {
       </AnimatePresence>
 
       <style>{`
+        @media (max-width: 860px) {
+          .hero-bottle { display: none !important; }
+        }
         @media (max-width: 900px) {
           section > .container > div[style*="grid-template-columns: 2fr 1fr"] { grid-template-columns: 1fr !important; }
           section > .container > div[style*="grid-template-columns: repeat(6"] { grid-template-columns: repeat(3,1fr) !important; }

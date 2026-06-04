@@ -111,11 +111,11 @@ export default function Home() {
         <WaveCanvas intensity={1.2} />
 
         {/* Bottle — right, clean graphic */}
-        <motion.div style={{
+        <motion.div className="hero-bottle" style={{
           y: bottleY, position: 'absolute', right: '4%', top: '50%', transform: 'translateY(-50%)', zIndex: 1,
         }}>
           <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%,-50%)', width: '500px', height: '500px', background: 'radial-gradient(circle, rgba(0,180,216,0.20) 0%, transparent 70%)', borderRadius: '50%', filter: 'blur(36px)', pointerEvents: 'none' }} />
-          <img src="/assets/bottle-hero.jpg" alt="Healtho Alkaline Water"
+          <img src="/assets/bottle-hero.jpeg" alt="Healtho Alkaline Water"
             style={{ height: '80vh', maxHeight: '700px', objectFit: 'contain', position: 'relative', zIndex: 1, filter: 'drop-shadow(0 40px 80px rgba(0,180,216,0.30)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))' }} />
         </motion.div>
 
@@ -277,6 +277,9 @@ export default function Home() {
       </section>
 
       <style>{`
+        @media (max-width: 860px) {
+          .hero-bottle { display: none !important; }
+        }
         @media (max-width: 800px) {
           section > .container > div[style*="grid-template-columns: 1fr 1fr"] {
             grid-template-columns: 1fr !important; gap: 2rem !important;
